@@ -35,18 +35,16 @@ const NAV_ITEMS = [
 ];
 
 export default function FarmAIApp() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); // State untuk mengatur Login
-  const [isLoginMode, setIsLoginMode] = useState(true); // State untuk berpindah antara Login & Daftar
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoginMode, setIsLoginMode] = useState(true);
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showAIChat, setShowAIChat] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [cartCount, setCartCount] = useState(5);
   const [chatInput, setChatInput] = useState('');
   
-  // State untuk Fitur Baru: Siram Otomatis
   const [autoWatering, setAutoWatering] = useState(true);
   
-  // State untuk Setor Limbah (Sirkular)
   const [showWasteModal, setShowWasteModal] = useState(false);
   const [wasteForm, setWasteForm] = useState({ type: 'Jerami Padi', amount: '', date: '' });
   const [activeWasteDeposit, setActiveWasteDeposit] = useState({
@@ -57,7 +55,6 @@ export default function FarmAIApp() {
     status: 'Kurir Menuju Lokasi (Berjarak 2.5km)'
   });
 
-  // State Profil Akun
   const [userProfile, setUserProfile] = useState({
     name: 'Budi Petani',
     email: 'budi.tani@farm.ai',
@@ -67,7 +64,6 @@ export default function FarmAIApp() {
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [editForm, setEditForm] = useState({...userProfile});
 
-  // State untuk Chat AI
   const [chatMessages, setChatMessages] = useState([
     { sender: 'ai', type: 'text', text: 'Halo! Saya asisten AI pertanian Anda. Ada yang bisa saya bantu terkait kondisi tanaman atau data lahan hari ini?' }
   ]);
@@ -104,51 +100,46 @@ export default function FarmAIApp() {
 
   const DashboardView = () => (
     <div className="flex-1 overflow-y-auto pb-32 hide-scrollbar bg-[#f4f7f6] animate-in fade-in">
-      
-      {/* Header & IoT */}
       <div className="relative pt-6 pb-8 px-5 rounded-b-[40px] shadow-[0_4px_20px_rgba(0,0,0,0.03)] mb-6 overflow-hidden bg-green-900">
-        
-        {/* --- GAMBAR LATAR BELAKANG HEADER BERANDA --- */}
         <div className="absolute inset-0 z-0">
           <img 
             src="background.jpg" 
             alt="Header Background" 
             className="w-full h-full object-cover opacity-90 blur-[0px]" 
+            onError={(e) => {e.target.onerror = null; e.target.src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80"}}
           />
         </div>
 
         <div className="relative z-10">
           <div className="flex items-center mb-6">
             <div className="flex items-center gap-3">
-              {/* Logo Aplikasi yang bisa diganti */}
               <div className="w-10 h-10 rounded-full overflow-hidden shadow-sm bg-white border border-white/50 flex items-center justify-center">
-                <img src="logo.jpg" alt="Logo Aplikasi" className="w-full h-full object-cover" />
+                <Leaf className="text-green-600 w-6 h-6" />
               </div>
-              <h1 className="font-extrabold text-2xl text-green-950 tracking-tight">AgriSmart</h1>
+              <h1 className="font-extrabold text-2xl text-white tracking-tight drop-shadow-md">AgriSmart</h1>
             </div>
           </div>
 
           <div className="flex justify-between items-center mb-4">
             <div>
-              <h2 className="text-2xl font-extrabold text-gray-900 flex items-center gap-2">
-                Field 1 <ChevronDown size={20} className="text-gray-700" />
+              <h2 className="text-2xl font-extrabold text-white flex items-center gap-2 drop-shadow-md">
+                Sektor 1 <ChevronDown size={20} className="text-white" />
               </h2>
-              <p className="text-xs text-gray-900 font-bold mt-1">Real-time IoT data, comprehended</p>
+              <p className="text-xs text-white/90 font-bold mt-1">Data IoT Real-time</p>
             </div>
             <div className="flex gap-2 text-green-800">
-              <div className="p-2 bg-white/80 rounded-xl backdrop-blur-sm cursor-pointer shadow-sm"><Settings size={18}/></div>
+              <div className="p-2 bg-white/90 rounded-xl backdrop-blur-sm cursor-pointer shadow-sm"><Settings size={18}/></div>
             </div>
           </div>
 
-          {/* Grid Metrik Atas (Kelembapan & pH) */}
           <div className="grid grid-cols-2 gap-3 mb-3">
-            <div className="bg-white/90 backdrop-blur-md rounded-[24px] p-4 shadow-sm border border-white/50 flex flex-col justify-between">
+            <div className="bg-white/95 backdrop-blur-md rounded-[24px] p-4 shadow-sm border border-white/50 flex flex-col justify-between">
               <div className="flex items-start gap-3 mb-2">
                 <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
                   <Droplet className="text-blue-500 fill-blue-500 w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-[11px] font-bold text-gray-500 leading-tight">Soil Moisture</h4>
+                  <h4 className="text-[11px] font-bold text-gray-500 leading-tight">Kelembapan Tanah</h4>
                   <p className="text-2xl font-black text-gray-900 leading-tight mt-0.5">65%</p>
                   <p className="text-[10px] font-bold text-gray-500">(Optimal)</p>
                 </div>
@@ -165,7 +156,7 @@ export default function FarmAIApp() {
               </svg>
             </div>
 
-            <div className="bg-white/90 backdrop-blur-md rounded-[24px] p-4 shadow-sm border border-white/50 flex flex-col items-center text-center">
+            <div className="bg-white/95 backdrop-blur-md rounded-[24px] p-4 shadow-sm border border-white/50 flex flex-col items-center text-center">
               <div className="relative w-16 h-16 mb-2">
                 <svg className="w-full h-full transform -rotate-90">
                   <circle cx="32" cy="32" r="26" stroke="#f1f5f9" strokeWidth="6" fill="transparent" strokeDasharray="163" strokeDashoffset="40" strokeLinecap="round" />
@@ -177,16 +168,15 @@ export default function FarmAIApp() {
                   </div>
                 </div>
               </div>
-              <h4 className="text-[11px] font-bold text-gray-500 leading-tight">pH Level</h4>
+              <h4 className="text-[11px] font-bold text-gray-500 leading-tight">Level pH</h4>
               <p className="text-xl font-black text-gray-900 leading-none mt-1">6.2</p>
-              <p className="text-[10px] font-bold text-gray-500 mt-0.5">(Neutral)</p>
+              <p className="text-[10px] font-bold text-gray-500 mt-0.5">(Netral)</p>
             </div>
           </div>
 
-          {/* NPK Levels Card */}
-          <div className="bg-white/90 backdrop-blur-md rounded-[24px] p-4 shadow-sm border border-white/50">
+          <div className="bg-white/95 backdrop-blur-md rounded-[24px] p-4 shadow-sm border border-white/50">
             <div className="flex justify-between items-center mb-3">
-              <h3 className="font-bold text-gray-900 text-sm">NPK Levels</h3>
+              <h3 className="font-bold text-gray-900 text-sm">Level NPK</h3>
               <ChevronRight className="text-gray-400 w-4 h-4" />
             </div>
             
@@ -207,33 +197,30 @@ export default function FarmAIApp() {
                   <Leaf className="text-[#4ade80] w-4 h-4" />
                   <div>
                     <p className="text-[10px] font-bold text-gray-800 leading-tight">N <span className="text-gray-500 font-normal">(Nitrogen)</span></p>
-                    <p className="text-[10px] font-semibold text-gray-600">120 ppm <span className="text-gray-400">(Medium)</span></p>
+                    <p className="text-[10px] font-semibold text-gray-600">120 ppm <span className="text-gray-400">(Sedang)</span></p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Leaf className="text-[#facc15] w-4 h-4" />
                   <div>
-                    <p className="text-[10px] font-bold text-gray-800 leading-tight">P <span className="text-gray-500 font-normal">(Phosphorus)</span></p>
-                    <p className="text-[10px] font-semibold text-gray-600">50 ppm <span className="text-gray-400">(Low)</span></p>
+                    <p className="text-[10px] font-bold text-gray-800 leading-tight">P <span className="text-gray-500 font-normal">(Fosfor)</span></p>
+                    <p className="text-[10px] font-semibold text-gray-600">50 ppm <span className="text-gray-400">(Rendah)</span></p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <Leaf className="text-[#a0522d] w-4 h-4" />
                   <div>
-                    <p className="text-[10px] font-bold text-gray-800 leading-tight">K <span className="text-gray-500 font-normal">(Potassium)</span></p>
-                    <p className="text-[10px] font-semibold text-gray-600">210 ppm <span className="text-gray-400">(High)</span></p>
+                    <p className="text-[10px] font-bold text-gray-800 leading-tight">K <span className="text-gray-500 font-normal">(Kalium)</span></p>
+                    <p className="text-[10px] font-semibold text-gray-600">210 ppm <span className="text-gray-400">(Tinggi)</span></p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          
         </div>
       </div>
 
       <div className="px-5 space-y-4">
-        
-        {/* Fitur Siram Otomatis (Tombol Geser) */}
         <div>
           <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm flex items-center justify-between cursor-pointer" onClick={() => setAutoWatering(!autoWatering)}>
             <div className="flex items-center gap-3">
@@ -246,7 +233,6 @@ export default function FarmAIApp() {
               </div>
             </div>
             
-            {/* Tombol Toggle Geser */}
             <button 
               className={`w-12 h-7 flex items-center rounded-full p-1 transition-colors duration-300 outline-none ${autoWatering ? 'bg-[#1e8654]' : 'bg-gray-300'}`}
             >
@@ -255,7 +241,6 @@ export default function FarmAIApp() {
           </div>
         </div>
 
-        {/* AI Advisor Wawasan */}
         <div>
           <h3 className="text-[15px] font-bold text-gray-900 mb-3">Wawasan AI</h3>
           <div className="bg-[#fffbeb] rounded-[20px] p-4 border border-amber-100 cursor-pointer shadow-sm">
@@ -272,11 +257,9 @@ export default function FarmAIApp() {
           </div>
         </div>
 
-        {/* Aktivitas Terakhir */}
         <div className="mt-2">
           <h3 className="text-[15px] font-bold text-gray-900 mb-3">Aktivitas Terakhir</h3>
           <div className="bg-white rounded-[20px] p-4 border border-gray-100 shadow-sm space-y-4">
-            
             <div className="flex items-start gap-3">
               <div className="p-2 bg-blue-50 rounded-full text-blue-600 shrink-0"><Droplet size={18}/></div>
               <div className="flex-1 border-b border-gray-50 pb-3">
@@ -311,24 +294,18 @@ export default function FarmAIApp() {
 
   const SustainabilityView = () => (
     <div className="flex-1 overflow-y-auto pb-32 hide-scrollbar bg-[#f4f7f6] animate-in fade-in">
-      
-      {/* HEADER SIRKULAR DENGAN GAMBAR KHUSUS */}
-      <div className="px-5 pt-10 pb-6 relative text-white rounded-b-[32px] mb-4 shadow-md overflow-hidden">
+      <div className="px-5 pt-10 pb-6 relative text-white rounded-b-[32px] mb-4 shadow-md overflow-hidden bg-green-800">
         <div className="absolute inset-0 z-0">
-          {/* Ganti "sirkular.jpg" dengan file gambar Sirkular Anda */}
-          <img src="sirkular.jpg" alt="Background Sirkular" className="w-full h-full object-cover" />
-          {/* Lapisan overlay agar teks tetap terbaca jelas */}
+          <img src="sirkular.jpg" alt="Background Sirkular" className="w-full h-full object-cover" onError={(e) => {e.target.onerror = null; e.target.src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80"}} />
           <div className="absolute inset-0 bg-green-900/60 mix-blend-multiply"></div>
         </div>
         <div className="relative z-10">
-          <h2 className="text-3xl font-extrabold mb-1">Keberlanjutan</h2>
+          <h2 className="text-3xl font-extrabold mb-1 drop-shadow-md">Keberlanjutan</h2>
           <p className="text-sm text-green-50">Praktik Tani Sirkular & Ramah Lingkungan.</p>
         </div>
       </div>
 
       <div className="px-5 space-y-4">
-        
-        {/* Card: Setor Limbah Pertanian */}
         <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 relative overflow-hidden">
           <div className="absolute top-0 right-0 p-4 opacity-5"><Leaf size={80}/></div>
           <div className="flex items-center gap-2 mb-2 relative z-10">
@@ -361,7 +338,6 @@ export default function FarmAIApp() {
           </button>
         </div>
 
-        {/* Card: Manajemen Kompos */}
         <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
           <div className="flex items-center gap-2 mb-3">
             <div className="p-2 bg-amber-100 rounded-lg"><RefreshCw className="text-amber-600 w-5 h-5" /></div>
@@ -378,7 +354,6 @@ export default function FarmAIApp() {
           </div>
         </div>
 
-        {/* --- MODAL SETOR LIMBAH --- */}
         {showWasteModal && (
           <div className="fixed inset-0 bg-black/60 z-50 flex items-end justify-center">
             <div className="bg-white w-full max-w-md rounded-t-[32px] p-5 pt-6 relative animate-in slide-in-from-bottom-full duration-300">
@@ -506,12 +481,9 @@ export default function FarmAIApp() {
           </div>
           <div className="px-5 mt-2 space-y-4">
             
-            {/* BANNER AI DENGAN GAMBAR KHUSUS */}
-            <div className="rounded-[24px] p-6 shadow-lg border border-green-700 flex flex-col text-center items-center relative overflow-hidden">
+            <div className="rounded-[24px] p-6 shadow-lg border border-green-700 flex flex-col text-center items-center relative overflow-hidden bg-green-800">
               <div className="absolute inset-0 z-0">
-                {/* Ganti "bg-ai.jpg" dengan file gambar AI Anda */}
-                <img src="ai.jpg" alt="Background AI" className="w-full h-full object-cover" />
-                {/* Lapisan overlay hijau agar teks putih tetap terbaca dengan jelas */}
+                <img src="ai.jpg" alt="Background AI" className="w-full h-full object-cover" onError={(e) => {e.target.onerror = null; e.target.src="https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=800&q=80"}} />
                 <div className="absolute inset-0 bg-green-900/70"></div>
               </div>
               
@@ -592,13 +564,9 @@ export default function FarmAIApp() {
 
   const AccountView = () => (
     <div className="flex-1 overflow-y-auto pb-32 hide-scrollbar bg-[#f4f7f6] animate-in fade-in">
-      
-      {/* HEADER AKUN DENGAN GAMBAR KHUSUS */}
-      <div className="px-5 pt-10 pb-6 shadow-sm border-b border-gray-100 relative overflow-hidden rounded-b-[24px]">
+      <div className="px-5 pt-10 pb-6 shadow-sm border-b border-gray-100 relative overflow-hidden rounded-b-[24px] bg-green-900">
         <div className="absolute inset-0 z-0">
-          {/* Ganti "saya.jpg" dengan file gambar latar profil Anda */}
-          <img src="saya.jpg" alt="Background Akun" className="w-full h-full object-cover" />
-          {/* Overlay gelap agar teks yang diubah menjadi putih tetap terbaca */}
+          <img src="saya.jpg" alt="Background Akun" className="w-full h-full object-cover" onError={(e) => {e.target.onerror = null; e.target.src="https://images.unsplash.com/photo-1592982537447-6f2c6e6b4f73?auto=format&fit=crop&w=800&q=80"}} />
           <div className="absolute inset-0 bg-black/50"></div>
         </div>
         
@@ -619,7 +587,6 @@ export default function FarmAIApp() {
           <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Pengaturan Akun</h3>
           <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
             
-            {/* Pemicu Modal Pengaturan */}
             <div 
               onClick={() => { setEditForm(userProfile); setShowEditProfile(true); }}
               className="flex items-center justify-between p-4 border-b border-gray-50 cursor-pointer hover:bg-gray-50"
@@ -650,7 +617,6 @@ export default function FarmAIApp() {
           </div>
         </div>
 
-        {/* Logout */}
         <button 
           onClick={() => setIsAuthenticated(false)} 
           className="w-full flex items-center justify-center gap-2 p-4 text-red-500 font-bold bg-white rounded-2xl border border-red-100 shadow-sm hover:bg-red-50 transition-colors"
@@ -659,7 +625,6 @@ export default function FarmAIApp() {
         </button>
       </div>
 
-      {/* --- MODAL EDIT PROFIL --- */}
       {showEditProfile && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-end justify-center">
           <div className="bg-white w-full max-w-md rounded-t-[32px] p-5 pt-6 relative animate-in slide-in-from-bottom-full duration-300">
@@ -725,7 +690,6 @@ export default function FarmAIApp() {
     </div>
   );
 
-  // --- VIEW AUTENTIKASI (LOGIN & DAFTAR) ---
   const AuthView = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -739,21 +703,14 @@ export default function FarmAIApp() {
 
     return (
       <div className="min-h-screen bg-[#111827] flex justify-center items-center font-sans">
-        {/* Container putih seperti pada desain */}
         <div className="w-full max-w-md bg-white min-h-screen sm:min-h-[auto] sm:rounded-[32px] sm:h-auto shadow-2xl flex flex-col p-8 justify-center">
           
-          {/* --- AREA LOGO --- */}
           <div className="flex justify-center mb-4">
             <div className="w-24 h-24 rounded-full border border-gray-200 flex items-center justify-center bg-white shadow-sm overflow-hidden p-1.5">
-              <img
-                src="logo.jpg"
-                alt="Logo Aplikasi"
-                className="w-full h-full object-contain rounded-full"
-              />
+              <Leaf className="text-green-600 w-12 h-12" />
             </div>
           </div>
 
-          {/* Judul & Subjudul */}
           <h1 className="text-3xl font-extrabold text-[#1e8654] text-center mb-2 tracking-tight">
             AgriSmart
           </h1>
@@ -763,7 +720,6 @@ export default function FarmAIApp() {
               : 'Daftar sekarang dan mulai langkah cerdas pertanian Anda.'}
           </p>
 
-          {/* Form Email & Password */}
           <form onSubmit={handleAuth} className="space-y-4">
             <div>
               <label className="block text-xs font-bold text-gray-700 mb-1.5">Email Bisnis / Pribadi</label>
@@ -789,7 +745,6 @@ export default function FarmAIApp() {
               />
             </div>
 
-            {/* Tombol Aksi Utama */}
             <button
               type="submit"
               className="w-full bg-[#10b981] hover:bg-[#059669] text-white font-bold py-3.5 rounded-xl shadow-md transition-colors mt-4 text-sm"
@@ -798,7 +753,6 @@ export default function FarmAIApp() {
             </button>
           </form>
 
-          {/* Kotak Toggle Login/Daftar */}
           <div className="mt-6 p-4 bg-gray-50 rounded-xl text-center text-[13px] text-gray-600 border border-gray-100">
             {isLoginMode ? (
               <>
@@ -828,14 +782,15 @@ export default function FarmAIApp() {
     );
   };
 
-  // Validasi: Jika belum login, tampilkan halaman Login/Daftar
   if (!isAuthenticated) {
     return <AuthView />;
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f7f6] text-gray-900 font-sans flex justify-center">
-      <div className="w-full max-w-md bg-white min-h-screen relative shadow-2xl overflow-hidden flex flex-col">
+    // PERUBAHAN UTAMA DI SINI: Mengubah min-h-screen menjadi h-[100dvh] dan overflow-hidden 
+    // agar pembungkus tidak memanjang dan membuat menu bawah tetap di posisinya.
+    <div className="h-[100dvh] w-full bg-[#f4f7f6] text-gray-900 font-sans flex justify-center overflow-hidden">
+      <div className="w-full max-w-md bg-white h-full relative shadow-2xl flex flex-col overflow-hidden">
         
         <style>{`
           .hide-scrollbar::-webkit-scrollbar { display: none; }
@@ -844,14 +799,12 @@ export default function FarmAIApp() {
           .no-tap-highlight { -webkit-tap-highlight-color: transparent; }
         `}</style>
 
-        {/* --- KONTEN UTAMA --- */}
         {activeTab === 'dashboard' && <DashboardView />}
         {activeTab === 'marketplace' && <MarketplaceView />}
         {activeTab === 'ai' && <AIAdvisorView />}
         {activeTab === 'sustainability' && <SustainabilityView />}
         {activeTab === 'account' && <AccountView />}
 
-        {/* --- NAVIGASI BAWAH DENGAN EFEK BULAT PUTIH --- */}
         {!showAIChat && (
           <div className="absolute bottom-0 w-full bg-white px-6 pb-4 pt-2 h-[80px] z-30 flex justify-between items-end shadow-[0_-15px_30px_rgba(0,0,0,0.06)] rounded-t-[32px]">
             {NAV_ITEMS.map((item) => {
@@ -859,16 +812,13 @@ export default function FarmAIApp() {
               return (
                 <div key={item.id} className="relative flex flex-col items-center w-14 h-full justify-end pb-3 no-tap-highlight">
                   
-                  {/* LUBANG (CUTOUT) & BACKGROUND PUTIH BULAT */}
                   {isActive && (
                     <div className="absolute -top-7 w-[68px] h-[68px] bg-[#f4f7f6] rounded-full flex items-center justify-center transition-all duration-300 z-0">
-                      {/* Base Bulat Putih Solid */}
                       <div className="w-[52px] h-[52px] bg-white rounded-full relative shadow-[0_8px_15px_rgba(0,0,0,0.08)] border border-gray-100 flex items-center justify-center">
                       </div>
                     </div>
                   )}
                   
-                  {/* IKON TOMBOL YANG MELOMPAT */}
                   <button 
                     onClick={() => setActiveTab(item.id)}
                     className={`relative z-10 flex flex-col items-center gap-1 transition-all duration-500 ease-[cubic-bezier(0.68,-0.55,0.26,1.55)] outline-none ${isActive ? '-translate-y-8' : 'translate-y-0 text-gray-400 hover:text-gray-600'}`}
@@ -876,7 +826,6 @@ export default function FarmAIApp() {
                     <div className={`p-2 rounded-full transition-transform duration-500 flex items-center justify-center ${isActive ? 'text-[#1e8654] scale-125' : 'text-gray-400 scale-100'}`}>
                        <item.icon size={22} strokeWidth={isActive ? 2.5 : 2} />
                     </div>
-                    {/* Teks Label */}
                     <span className={`text-[10px] font-bold absolute top-11 transition-opacity duration-300 ${isActive ? 'opacity-100 text-[#1e8654] translate-y-2' : 'opacity-100 text-gray-500'}`}>
                       {item.label}
                     </span>
